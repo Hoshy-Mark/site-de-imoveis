@@ -355,7 +355,7 @@
 
    Para REMOVER um imóvel: apague o bloco inteiro { ... } dele.
    ============================================================ */
-window.IMOVEIS_SOURCE_URL = "https://script.google.com/macros/s/AKfycbwJqFq-tQjTt1ptOGVXY30pNjb0DYrQvEprEcLMjxQEkky7uxYfksSe9V59811F0e4D/exec";
+window.IMOVEIS_SOURCE_URL = "./imoveis.json";
 const WHATSAPP = "555197877111";
 const CRECI = "[inserir número]";
 const AGENCIA = {
@@ -423,7 +423,7 @@ async function carregarImoveis() {
   }
 
   try {
-    const resposta = await fetch(url, { cache: 'no-store' });
+    const resposta = await fetch(url + '?cache=' + Date.now(), { cache: 'no-store' });
     if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
 
     const payload = await resposta.json();
@@ -434,7 +434,7 @@ async function carregarImoveis() {
       IMOVEIS = IMOVEIS_FALLBACK.map(normalizeImovel).filter(Boolean);
     }
   } catch (error) {
-    console.warn('Não foi possível carregar imóveis da fonte externa. Usando dados locais.', error);
+    console.warn('Não foi possível carregar imóveis do JSON. Usando fallback local.', error);
     IMOVEIS = IMOVEIS_FALLBACK.map(normalizeImovel).filter(Boolean);
   }
 
